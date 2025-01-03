@@ -70,6 +70,16 @@
             background-color: #e64a19;
         }
 
+        .floating-card .intro-container {
+            background-color: rgba(255, 255, 255, 0.85); /* Slightly transparent background */
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid #ff5722; /* Border around the text */
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
         .floating-card .intro-title {
             margin-top: 15px;
             font-size: 1.5rem;
@@ -79,7 +89,6 @@
         .floating-card .intro-text {
             font-size: 1rem;
             line-height: 1.8;
-            max-width: 750px;
             text-align: center;
             margin-top: 20px;
         }
@@ -147,10 +156,12 @@
             <button @click="closeCard" class="close-button">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="title">Support My Dream and Journey 💖</div>
-            <p>Hey there! 👋 I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—to move to the U.S. and build a future with my loved one.</p>
-            <p>Your contribution would help smooth the way for this journey. In return, I’ll create a custom logo or banner as a token of my appreciation!</p>
-            <a href="https://patreon.com/Muey" target="_blank" class="text-xl font-bold">Support My Dream on Patreon</a>
+            <div class="intro-container">
+                <div class="title">Support My Dream and Journey 💖</div>
+                <p>Hey there! 👋 I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—to move to the U.S. and build a future with my loved one.</p>
+                <p>Your contribution would help smooth the way for this journey. In return, I’ll create a custom logo or banner as a token of my appreciation!</p>
+                <a href="https://patreon.com/Muey" target="_blank" class="text-xl font-bold">Support My Dream on Patreon</a>
+            </div>
         </div>
     </div>
 
@@ -207,7 +218,15 @@
                     } else {
                         products.value.push({ ...newProduct.value, id: Date.now() });
                     }
-                    resetForm();
+                    newProduct.value = {
+                        name: '',
+                        quantity: '',
+                        arrivalDate: '',
+                        orderDate: '',
+                        packedDate: '',
+                        sendOutDate: '',
+                        storeArrivalDate: ''
+                    };
                 };
 
                 const editProduct = (product) => {
@@ -221,19 +240,6 @@
 
                 const closeCard = () => {
                     showCard.value = false;
-                    window.open('https://patreon.com/Muey', '_blank');
-                };
-
-                const resetForm = () => {
-                    newProduct.value = {
-                        name: '',
-                        quantity: '',
-                        arrivalDate: '',
-                        orderDate: '',
-                        packedDate: '',
-                        sendOutDate: '',
-                        storeArrivalDate: ''
-                    };
                 };
 
                 return {
@@ -242,11 +248,11 @@
                     addProduct,
                     editProduct,
                     removeProduct,
-                    closeCard,
                     showCard,
                     dateFields,
                     headers,
-                    keys
+                    keys,
+                    closeCard
                 };
             }
         }).mount('#app');
