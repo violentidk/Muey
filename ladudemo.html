@@ -1,8 +1,8 @@
-<html lang="et">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lao Haldussüsteem</title>
+    <title>Warehouse Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://registry.npmmirror.com/vue/3.3.11/files/dist/vue.global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -15,11 +15,12 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            width: 150px;
-            height: 100px;
+            width: 200px;
+            height: 120px;
             background-color: #ffeb3b;
             color: #000;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             border-radius: 10px;
@@ -31,70 +32,70 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-10px);
+                transform: translateY(-20px);
             }
         }
     </style>
 </head>
 <body class="bg-gray-100">
     <div id="app" class="container mx-auto mt-10 px-4">
-        <h1 class="text-6xl font-bold text-center mb-8">Lao Haldussüsteem</h1>
+        <h1 class="text-6xl font-bold text-center mb-8">Warehouse Management System</h1>
         <div class="bg-white p-8 rounded-lg shadow-lg">
             <form @submit.prevent="addProduct" class="space-y-8">
-                <h2 class="text-3xl font-semibold mb-6">Lisa uus toode</h2>
+                <h2 class="text-3xl font-semibold mb-6">Add New Product</h2>
                 <div class="grid grid-cols-1 gap-8">
                     <div>
-                        <label for="productName" class="block text-xl font-medium text-gray-700">Toote nimi</label>
+                        <label for="productName" class="block text-xl font-medium text-gray-700">Product Name</label>
                         <input type="text" v-model="newProduct.name" id="productName" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl" required>
                     </div>
                     <div>
-                        <label for="quantity" class="block text-xl font-medium text-gray-700">Kogus</label>
+                        <label for="quantity" class="block text-xl font-medium text-gray-700">Quantity</label>
                         <input type="number" v-model="newProduct.quantity" id="quantity" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl" required>
                     </div>
                     <div>
-                        <label for="dates" class="block text-xl font-medium text-gray-700">Kuupäevad</label>
+                        <label for="dates" class="block text-xl font-medium text-gray-700">Dates</label>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div>
-                                <label for="arrivalDate" class="block text-lg font-medium text-gray-700">Saabumise kuupäev (kesklattu)</label>
+                                <label for="arrivalDate" class="block text-lg font-medium text-gray-700">Arrival Date (to central warehouse)</label>
                                 <input type="date" v-model="newProduct.arrivalDate" id="arrivalDate" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                             <div>
-                                <label for="orderDate" class="block text-lg font-medium text-gray-700">Tellimuse kuupäev</label>
+                                <label for="orderDate" class="block text-lg font-medium text-gray-700">Order Date</label>
                                 <input type="date" v-model="newProduct.orderDate" id="orderDate" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                             <div>
-                                <label for="packedDate" class="block text-lg font-medium text-gray-700">Pakkimise kuupäev</label>
+                                <label for="packedDate" class="block text-lg font-medium text-gray-700">Packing Date</label>
                                 <input type="date" v-model="newProduct.packedDate" id="packedDate" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                             <div>
-                                <label for="sendOutDate" class="block text-lg font-medium text-gray-700">Väljasaatmise kuupäev</label>
+                                <label for="sendOutDate" class="block text-lg font-medium text-gray-700">Dispatch Date</label>
                                 <input type="date" v-model="newProduct.sendOutDate" id="sendOutDate" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                             <div>
-                                <label for="storeArrivalDate" class="block text-lg font-medium text-gray-700">Poodi saabumise kuupäev</label>
+                                <label for="storeArrivalDate" class="block text-lg font-medium text-gray-700">Store Arrival Date</label>
                                 <input type="date" v-model="newProduct.storeArrivalDate" id="storeArrivalDate" class="mt-2 block w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-200 text-xl" :disabled="products.length >= 10">Lisa</button>
+                    <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-200 text-xl" :disabled="products.length >= 10">Add</button>
                 </div>
             </form>
         </div>
         <div class="mt-10 bg-white p-8 rounded-lg shadow-lg overflow-x-auto">
-            <h2 class="text-3xl font-semibold mb-6">Toodete loend</h2>
+            <h2 class="text-3xl font-semibold mb-6">Product List</h2>
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Toote nimi</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Kogus</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Saabumise kuupäev</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Tellimuse kuupäev</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Pakkimise kuupäev</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Väljasaatmise kuupäev</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Poodi saabumise kuupäev</th>
-                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Tegevused</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Arrival Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Order Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Packing Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Dispatch Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Store Arrival Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -118,8 +119,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="floating-card">
-            <span class="text-2xl font-bold">MUEY FREE</span>
+        <div v-if="showCard" class="floating-card">
+            <button @click="closeCard" class="absolute top-2 right-2 text-black">
+                <i class="fas fa-times"></i>
+            </button>
+            <a href="https://patreon.com/Muey" target="_blank" class="text-xl font-bold">MUEY FREE</a>
+            <span class="text-sm">10 products max</span>
         </div>
     </div>
     <script>
@@ -138,6 +143,7 @@
                     storeArrivalDate: ''
                 })
                 const editingProduct = ref(null)
+                const showCard = ref(true)
 
                 const addProduct = () => {
                     if (editingProduct.value) {
@@ -169,12 +175,18 @@
                     products.value = products.value.filter(product => product.id !== id)
                 }
 
+                const closeCard = () => {
+                    showCard.value = false
+                }
+
                 return {
                     products,
                     newProduct,
                     addProduct,
                     editProduct,
-                    removeProduct
+                    removeProduct,
+                    showCard,
+                    closeCard
                 }
             }
         }).mount('#app')
