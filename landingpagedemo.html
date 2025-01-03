@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Group Landing Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.min.js"></script>
+    <style>
+        body {
+            font-family: 'Darker Grotesque', sans-serif;
+            background: linear-gradient(135deg, #d1fae5, #2dd4bf);
+            color: #053742;
+            scroll-behavior: smooth;
+        }
+
+        .glassy {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #99f6e4, #5eead4);
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5eead4, #2dd4bf);
+            transform: translateY(-2px);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #064e3b;
+        }
+
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+
+        /* Lighter gradient for the contact section */
+        .lighter-gradient {
+            background: linear-gradient(135deg, #e0f7f3, #c6efe6);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="py-4 glassy fixed w-full top-0 z-50">
+            <div class="text-center mb-2">
+                <h1 class="text-2xl font-bold">Company Group</h1>
+            </div>
+            <ul class="flex justify-center space-x-6 text-lg">
+                <li><a href="#home" class="hover:underline">Home</a></li>
+                <li><a href="#about" class="hover:underline">About</a></li>
+                <li><a href="#services" class="hover:underline">Services</a></li>
+                <li><a href="#portfolio" class="hover:underline">Portfolio</a></li>
+                <li><a href="#team" class="hover:underline">Team</a></li>
+                <li><a href="#contact" class="hover:underline">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
+            <h1 class="text-4xl font-bold mb-4">Welcome to Our Company Group</h1>
+            <p class="text-xl mb-6">We provide cutting-edge solutions to help businesses thrive.</p>
+            <button class="btn-primary">Learn More</button>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="min-h-screen flex flex-col justify-center items-center text-center py-12 px-6">
+            <h2 class="section-title">About Us</h2>
+            <p class="text-lg max-w-2xl glassy p-6 rounded-lg">At Company Group, we are committed to delivering innovative solutions to meet the unique needs of small and medium-sized businesses. Our experienced team works tirelessly to ensure your success.</p>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="min-h-screen flex flex-col justify-center items-center text-center py-12 px-6">
+            <h2 class="section-title">Our Services</h2>
+            <div class="grid gap-6 md:grid-cols-3">
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-3">Marketing Strategies</h3>
+                    <p>Reach your target audience with cutting-edge marketing techniques.</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-3">IT Solutions</h3>
+                    <p>Keep your operations running smoothly with tailored IT support.</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-bold mb-3">Business Development</h3>
+                    <p>We provide actionable plans to grow and scale your business.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="min-h-screen flex flex-col justify-center items-center text-center py-12 px-6">
+            <h2 class="section-title">Our Portfolio</h2>
+            <p class="text-lg max-w-2xl mb-6 glassy p-6 rounded-lg">Explore some of the recent projects we've worked on and discover how we've helped our clients achieve outstanding results.</p>
+            <div class="grid gap-6 md:grid-cols-3">
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-lg font-bold mb-2">Project A</h3>
+                    <p>A creative marketing campaign for a growing tech startup.</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-lg font-bold mb-2">Project B</h3>
+                    <p>Streamlined IT infrastructure for a leading e-commerce brand.</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <h3 class="text-lg font-bold mb-2">Project C</h3>
+                    <p>A dynamic web solution for a local non-profit organization.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section id="team" class="min-h-screen flex flex-col justify-center items-center text-center py-12 px-6">
+            <h2 class="section-title">Meet Our Team</h2>
+            <div class="grid gap-6 md:grid-cols-3">
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-full mx-auto mb-3">
+                    <h3 class="text-lg font-bold mb-1">Alice Johnson</h3>
+                    <p>CEO & Founder</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-full mx-auto mb-3">
+                    <h3 class="text-lg font-bold mb-1">Bob Smith</h3>
+                    <p>Head of IT</p>
+                </div>
+                <div class="glassy p-6 rounded-lg shadow-lg">
+                    <img src="https://via.placeholder.com/150" alt="Team Member" class="rounded-full mx-auto mb-3">
+                    <h3 class="text-lg font-bold mb-1">Cindy White</h3>
+                    <p>Marketing Manager</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="min-h-screen flex flex-col justify-center items-center text-center py-12 px-6 lighter-gradient">
+            <h2 class="section-title">Get in Touch</h2>
+            <p class="text-lg mb-4 glassy p-6 rounded-lg">For inquiries, collaborations, or just to say hello, drop us an email at:</p>
+            <p class="text-lg font-bold">contact@companygroup.com</p>
+        </section>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        createApp({}).mount('#app');
+    </script>
+</body>
+</html>
