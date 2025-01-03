@@ -12,49 +12,78 @@
     <style>
         body {
             font-family: 'Darker Grotesque', sans-serif;
+            overflow: hidden;
         }
 
         .floating-card {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 250px;
-            height: auto;
-            background-color: #ffeb3b;
-            color: #000;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.75);
+            color: #fff;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            animation: float 3s ease-in-out infinite;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .floating-card .close-button {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            font-size: 20px;
+            top: 20px;
+            right: 20px;
+            font-size: 25px;
             cursor: pointer;
+            color: #fff;
         }
 
         .floating-card .title {
-            font-size: 1.25rem;
+            font-size: 2rem;
             font-weight: bold;
+            text-align: center;
         }
 
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
+        .floating-card p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            text-align: center;
+            margin-top: 15px;
         }
+
+        .floating-card a {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 12px 30px;
+            margin-top: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .floating-card a:hover {
+            background-color: #e64a19;
+        }
+
+        .floating-card .intro-title {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .floating-card .intro-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 750px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 
@@ -118,10 +147,10 @@
             <button @click="closeCard" class="close-button">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="title">Hey there! 👋</div>
-            <p class="text-sm text-center">I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—one that means the world to me: to move to the U.S. and build a future with my loved one.</p>
-            <p class="text-sm text-center mt-2">Your contribution helps me take the next step in this journey. In return, I’ll create a custom logo or banner as a token of appreciation. 💖</p>
-            <a href="https://patreon.com/Muey" target="_blank" class="text-xl font-bold mt-4">Support My Dream on Patreon</a>
+            <div class="title">Support My Dream and Journey 💖</div>
+            <p>Hey there! 👋 I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—to move to the U.S. and build a future with my loved one.</p>
+            <p>Your contribution would help smooth the way for this journey. In return, I’ll create a custom logo or banner as a token of my appreciation!</p>
+            <a href="https://patreon.com/Muey" target="_blank" class="text-xl font-bold">Support My Dream on Patreon</a>
         </div>
     </div>
 
