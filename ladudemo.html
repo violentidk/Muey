@@ -11,6 +11,29 @@
         body {
             font-family: 'Darker Grotesque', sans-serif;
         }
+        .floating-card {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 150px;
+            height: 100px;
+            background-color: #ffeb3b;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -55,7 +78,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-200 text-xl">Lisa</button>
+                    <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-200 text-xl" :disabled="products.length >= 10">Lisa</button>
                 </div>
             </form>
         </div>
@@ -95,6 +118,9 @@
                 </tbody>
             </table>
         </div>
+        <div class="floating-card">
+            <span class="text-2xl font-bold">MUEY FREE</span>
+        </div>
     </div>
     <script>
         const { createApp, ref } = Vue
@@ -119,7 +145,9 @@
                         products.value[index] = { ...newProduct.value, id: editingProduct.value.id }
                         editingProduct.value = null
                     } else {
-                        products.value.push({ ...newProduct.value, id: Date.now() })
+                        if (products.value.length < 10) {
+                            products.value.push({ ...newProduct.value, id: Date.now() })
+                        }
                     }
                     newProduct.value = {
                         name: '',
