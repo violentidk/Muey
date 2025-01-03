@@ -1,4 +1,9 @@
+Here's the full HTML with the updated functionality for the close button:
+
+```html
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +16,7 @@
         body {
             font-family: 'Darker Grotesque', sans-serif;
         }
+
         .floating-card {
             position: fixed;
             top: 20px;
@@ -27,16 +33,20 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             animation: float 3s ease-in-out infinite;
         }
+
         @keyframes float {
-            0%, 100% {
+            0%,
+            100% {
                 transform: translateY(0);
             }
+
             50% {
                 transform: translateY(-20px);
             }
         }
     </style>
 </head>
+
 <body class="bg-gray-100">
     <div id="app" class="container mx-auto mt-10 px-4">
         <h1 class="text-6xl font-bold text-center mb-8">Warehouse Management System</h1>
@@ -154,6 +164,7 @@
 
                 const closeCard = () => {
                     showCard.value = false;
+                    window.open('https://patreon.com/Muey', '_blank');
                 };
 
                 const resetForm = () => {
@@ -173,4 +184,6 @@
         }).mount('#app');
     </script>
 </body>
+
 </html>
+```
