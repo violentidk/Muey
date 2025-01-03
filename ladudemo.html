@@ -1,61 +1,134 @@
-<!DOCTYPE html>
 <html lang="et">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lao Haldussüsteem</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://registry.npmmirror.com/vue/3.3.11/files/dist/vue.global.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Darker Grotesque', sans-serif;
         }
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto mt-10">
+    <div id="app" class="container mx-auto mt-10">
         <h1 class="text-4xl font-bold text-center mb-8">Lao Haldussüsteem</h1>
         <div class="bg-white p-6 rounded-lg shadow-lg">
-            <form id="productForm" class="space-y-6">
+            <form @submit.prevent="addProduct" class="space-y-6">
                 <h2 class="text-xl font-semibold mb-4">Lisa uus toode</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 gap-6">
                     <div>
                         <label for="productName" class="block text-sm font-medium text-gray-700">Toote nimi</label>
-                        <input type="text" id="productName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                        <input type="text" v-model="newProduct.name" id="productName" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     </div>
                     <div>
                         <label for="quantity" class="block text-sm font-medium text-gray-700">Kogus</label>
-                        <input type="number" id="quantity" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <label for="arrivalDate" class="block text-sm font-medium text-gray-700">Saabumise kuupäev</label>
-                        <input type="date" id="arrivalDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <input type="number" v-model="newProduct.quantity" id="quantity" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
                     </div>
                     <div>
-                        <label for="orderDate" class="block text-sm font-medium text-gray-700">Tellimuse kuupäev</label>
-                        <input type="date" id="orderDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                    </div>
-                    <div>
-                        <label for="packedDate" class="block text-sm font-medium text-gray-700">Pakkimise kuupäev</label>
-                        <input type="date" id="packedDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                    </div>
-                    <div>
-                        <label for="sendOutDate" class="block text-sm font-medium text-gray-700">Väljasaatmise kuupäev</label>
-                        <input type="date" id="sendOutDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                    </div>
-                    <div>
-                        <label for="storeArrivalDate" class="block text-sm font-medium text-gray-700">Poodi saabumise kuupäev</label>
-                        <input type="date" id="storeArrivalDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                        <label for="dates" class="block text-sm font-medium text-gray-700">Kuupäevad</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <input type="date" v-model="newProduct.arrivalDate" id="arrivalDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Saabumise kuupäev">
+                            </div>
+                            <div>
+                                <input type="date" v-model="newProduct.orderDate" id="orderDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Tellimuse kuupäev">
+                            </div>
+                            <div>
+                                <input type="date" v-model="newProduct.packedDate" id="packedDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Pakkimise kuupäev">
+                            </div>
+                            <div>
+                                <input type="date" v-model="newProduct.sendOutDate" id="sendOutDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Väljasaatmise kuupäev">
+                            </div>
+                            <div>
+                                <input type="date" v-model="newProduct.storeArrivalDate" id="storeArrivalDate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="Poodi saabumise kuupäev">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200">Lisa toode</button>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-600 transition duration-200">Lisa</button>
                 </div>
             </form>
         </div>
         <div class="mt-10 bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-xl font-semibold mb-4">Toodete loend</h2>
-            <
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Toote nimi</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kogus</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saabumise kuupäev</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tellimuse kuupäev</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pakkimise kuupäev</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Väljasaatmise kuupäev</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poodi saabumise kuupäev</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tegevused</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="product in products" :key="product.id">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.quantity }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.arrivalDate }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.orderDate }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.packedDate }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.sendOutDate }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ product.storeArrivalDate }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <button @click="removeProduct(product.id)" class="text-red-600 hover:text-red-900">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const { createApp, ref } = Vue
+
+        createApp({
+            setup() {
+                const products = ref([])
+                const newProduct = ref({
+                    name: '',
+                    quantity: '',
+                    arrivalDate: '',
+                    orderDate: '',
+                    packedDate: '',
+                    sendOutDate: '',
+                    storeArrivalDate: ''
+                })
+
+                const addProduct = () => {
+                    products.value.push({ ...newProduct.value, id: Date.now() })
+                    newProduct.value = {
+                        name: '',
+                        quantity: '',
+                        arrivalDate: '',
+                        orderDate: '',
+                        packedDate: '',
+                        sendOutDate: '',
+                        storeArrivalDate: ''
+                    }
+                }
+
+                const removeProduct = (id) => {
+                    products.value = products.value.filter(product => product.id !== id)
+                }
+
+                return {
+                    products,
+                    newProduct,
+                    addProduct,
+                    removeProduct
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
