@@ -76,11 +76,63 @@
     <div id="app" class="container mx-auto mt-10 px-4">
         <h1 class="text-6xl font-bold text-center mb-8">Warehouse Management System</h1>
 
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <form @submit.prevent="addProduct" class="space-y-8">
+                <h2 class="text-3xl font-semibold mb-6">Add New Product</h2>
+                <div class="grid gap-8">
+                    <div>
+                        <label for="productName" class="block text-xl font-medium text-gray-700">Product Name</label>
+                        <input type="text" v-model="newProduct.name" id="productName" class="mt-2 w-full border-gray-300 rounded-md shadow-sm text-xl" required>
+                    </div>
+                    <div>
+                        <label for="quantity" class="block text-xl font-medium text-gray-700">Quantity</label>
+                        <input type="number" v-model="newProduct.quantity" id="quantity" class="mt-2 w-full border-gray-300 rounded-md shadow-sm text-xl" required>
+                    </div>
+                    <div>
+                        <label class="block text-xl font-medium text-gray-700">Dates</label>
+                        <div class="grid gap-8 md:grid-cols-3">
+                            <div v-for="dateField in dateFields" :key="dateField.id">
+                                <label :for="dateField.id" class="block text-lg font-medium text-gray-700">{{ dateField.label }}</label>
+                                <input type="date" v-model="newProduct[dateField.key]" :id="dateField.id" class="mt-2 w-full border-gray-300 rounded-md shadow-sm text-xl">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit" class="bg-blue-500 text-white px-8 py-3 rounded-md shadow-md hover:bg-blue-600 transition duration-200 text-xl" :disabled="products.length >= 10">Add</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-10 bg-white p-8 rounded-lg shadow-lg overflow-x-auto">
+            <h2 class="text-3xl font-semibold mb-6">Product List</h2>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th v-for="header in headers" :key="header" class="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider">{{ header }}</th>
+                        <th class="px-6 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr v-for="product in products" :key="product.id">
+                        <td class="px-6 py-4 text-lg text-gray-900" v-for="key in keys" :key="key">{{ product[key] }}</td>
+                        <td class="px-6 py-4 text-lg text-gray-900">
+                            <button @click="editProduct(product)" class="text-blue-600 hover:text-blue-900 mr-4">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button @click="removeProduct(product.id)" class="text-red-600 hover:text-red-900">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div v-if="showCard" class="floating-card">
-            <button @click="closeCard">
+            <button @click="closeCard" class="absolute top-2 right-2 text-black">
                 <i class="fas fa-times"></i>
             </button>
-
             <div class="intro-container">
                 <h2 class="text-3xl font-bold mb-3">Support My Dream and Journey 💖</h2>
                 <p>Hey there! 👋 I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—to move to the U.S. and build a future with my loved one.</p>
@@ -88,26 +140,66 @@
                 <a href="https://patreon.com/Muey" target="_blank">Support My Dream on Patreon</a>
             </div>
         </div>
-
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <!-- Content for Add New Product goes here -->
-        </div>
-
     </div>
 
     <script>
         const { createApp, ref } = Vue;
         createApp({
             setup() {
+                const products = ref([]);
+                const newProduct = ref({ name: '', quantity: '', arrivalDate: '', orderDate: '', packedDate: '', sendOutDate: '', storeArrivalDate: '' });
+                const editingProduct = ref(null);
                 const showCard = ref(true);
+                const dateFields = [
+                    { id: 'arrivalDate', label: 'Arrival Date', key: 'arrivalDate' },
+                    { id: 'orderDate', label: 'Order Date', key: 'orderDate' },
+                    { id: 'packedDate', label: 'Packing Date', key: 'packedDate' },
+                    { id: 'sendOutDate', label: 'Dispatch Date', key: 'sendOutDate' },
+                    { id: 'storeArrivalDate', label: 'Store Arrival Date', key: 'storeArrivalDate' }
+                ];
+                const headers = ['Product Name', 'Quantity', 'Arrival Date', 'Order Date', 'Packing Date', 'Dispatch Date', 'Store Arrival Date'];
+                const keys = ['name', 'quantity', 'arrivalDate', 'orderDate', 'packedDate', 'sendOutDate', 'storeArrivalDate'];
+
+                const addProduct = () => {
+                    if (editingProduct.value) {
+                        const index = products.value.findIndex(product => product.id === editingProduct.value.id);
+                        products.value[index] = { ...newProduct.value, id: editingProduct.value.id };
+                        editingProduct.value = null;
+                    } else if (products.value.length < 10) {
+                        products.value.push({ ...newProduct.value, id: Date.now() });
+                    }
+                    resetForm();
+                };
+
+                const editProduct = (product) => {
+                    newProduct.value = { ...product };
+                    editingProduct.value = product;
+                };
+
+                const removeProduct = (id) => {
+                    products.value = products.value.filter(product => product.id !== id);
+                };
 
                 const closeCard = () => {
                     showCard.value = false;
+                    window.open('https://patreon.com/Muey', '_blank');
+                };
+
+                const resetForm = () => {
+                    newProduct.value = { name: '', quantity: '', arrivalDate: '', orderDate: '', packedDate: '', sendOutDate: '', storeArrivalDate: '' };
                 };
 
                 return {
+                    products,
+                    newProduct,
+                    addProduct,
+                    editProduct,
+                    removeProduct,
+                    closeCard,
                     showCard,
-                    closeCard
+                    dateFields,
+                    headers,
+                    keys
                 };
             }
         }).mount('#app');
