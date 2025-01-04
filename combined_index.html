@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://unpkg.com/vue@next" defer></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="module">
+import { createApp } from 'vue'
+import App from './App.vue'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+
+// Initialize AOS
+AOS.init({
+  duration: 1000,
+  once: true
+})
+
+createApp(App).mount('#app')
+    </script>
+    <style>
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: linear-gradient(135deg, #d1fae5, #2dd4bf);
+  color: #053742;
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.glassy {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #99f6e4, #5eead4);
+  color: #064e3b;
+  font-weight: 600;
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #5eead4, #2dd4bf);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(94, 234, 212, 0.3);
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #064e3b;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+  background: linear-gradient(90deg, #99f6e4, #5eead4);
+  border-radius: 2px;
+}
+    </style>
+</body>
+</html>
