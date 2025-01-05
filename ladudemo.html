@@ -21,7 +21,7 @@
             width: 100%;
             max-width: 400px;
             height: auto;
-            background: rgba(255, 255, 255, 0.85); /* Slightly transparent */
+            background: rgba(255, 255, 255, 0.85);
             color: #000;
             display: flex;
             flex-direction: column;
@@ -30,29 +30,6 @@
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
-        }
-
-        .intro-container {
-            background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-            border: 2px solid #ff5722; /* Border color */
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            margin-bottom: 20px;
-            max-width: 100%;
-        }
-
-        .intro-container a {
-            text-decoration: none;
-            background-color: #ff5722;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .intro-container a:hover {
-            background-color: #ff7043;
         }
 
         .floating-card button {
@@ -93,7 +70,12 @@
                         <div class="grid gap-8 md:grid-cols-3">
                             <div v-for="dateField in dateFields" :key="dateField.id">
                                 <label :for="dateField.id" class="block text-lg font-medium text-gray-700">{{ dateField.label }}</label>
-                                <input type="date" v-model="newProduct[dateField.key]" :id="dateField.id" class="mt-2 w-full border-gray-300 rounded-md shadow-sm text-xl">
+                                <input 
+                                    type="text" 
+                                    v-model="newProduct[dateField.key]" 
+                                    :id="dateField.id" 
+                                    placeholder="YYYY-MM-DD" 
+                                    class="mt-2 w-full border-gray-300 rounded-md shadow-sm text-xl">
                             </div>
                         </div>
                     </div>
@@ -128,18 +110,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div v-if="showCard" class="floating-card">
-            <button @click="closeCard" class="absolute top-2 right-2 text-black">
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="intro-container">
-                <h2 class="text-3xl font-bold mb-3">Support My Dream and Journey 💖</h2>
-                <p>Hey there! 👋 I’m a 15-year-old coder from Estonia, passionate about creating templates that make websites super easy and smart to navigate. I have a dream—to move to the U.S. and build a future with my loved one.</p>
-                <p>Your contribution would help smooth the way for this journey. In return, I’ll create a custom logo or banner as a token of my appreciation!</p>
-                <a href="https://patreon.com/Muey" target="_blank">Support My Dream on Patreon</a>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -148,8 +118,6 @@
             setup() {
                 const products = ref([]);
                 const newProduct = ref({ name: '', quantity: '', arrivalDate: '', orderDate: '', packedDate: '', sendOutDate: '', storeArrivalDate: '' });
-                const editingProduct = ref(null);
-                const showCard = ref(true);
                 const dateFields = [
                     { id: 'arrivalDate', label: 'Arrival Date', key: 'arrivalDate' },
                     { id: 'orderDate', label: 'Order Date', key: 'orderDate' },
@@ -161,31 +129,7 @@
                 const keys = ['name', 'quantity', 'arrivalDate', 'orderDate', 'packedDate', 'sendOutDate', 'storeArrivalDate'];
 
                 const addProduct = () => {
-                    if (editingProduct.value) {
-                        const index = products.value.findIndex(product => product.id === editingProduct.value.id);
-                        products.value[index] = { ...newProduct.value, id: editingProduct.value.id };
-                        editingProduct.value = null;
-                    } else if (products.value.length < 10) {
-                        products.value.push({ ...newProduct.value, id: Date.now() });
-                    }
-                    resetForm();
-                };
-
-                const editProduct = (product) => {
-                    newProduct.value = { ...product };
-                    editingProduct.value = product;
-                };
-
-                const removeProduct = (id) => {
-                    products.value = products.value.filter(product => product.id !== id);
-                };
-
-                const closeCard = () => {
-                    showCard.value = false;
-                    window.open('https://patreon.com/Muey', '_blank');
-                };
-
-                const resetForm = () => {
+                    products.value.push({ ...newProduct.value, id: Date.now() });
                     newProduct.value = { name: '', quantity: '', arrivalDate: '', orderDate: '', packedDate: '', sendOutDate: '', storeArrivalDate: '' };
                 };
 
@@ -193,10 +137,6 @@
                     products,
                     newProduct,
                     addProduct,
-                    editProduct,
-                    removeProduct,
-                    closeCard,
-                    showCard,
                     dateFields,
                     headers,
                     keys
